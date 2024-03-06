@@ -51,3 +51,41 @@ sources:
           description: The logistic cost associated with shipping.
         - name: ship_cost
           description: The total shipping cost, which may include additional charges beyond the shipping fee.
+
+      - name: adwords
+        identifier: raw_gz_adwords
+      - name: bing
+        identifier: raw_gz_bing
+      - name: criteo
+        identifier: raw_gz_criteo
+      - name: facebook
+        identifier: raw_gz_facebook
+models:
+  - name: int_campaign
+    description: data from all campaigns
+    tests:
+      - unique:
+          column_name: "(campaign_key) || '-' || date_date)"
+      - not_null:
+          column_name:
+            - paid_source
+            - campaign_name
+
+  - name: int_campaign_days
+    description: data from all campaigns based on day
+    tests:
+       - unique:
+          column_name: date_date
+models:
+  - name: finance_campaigns_day
+    description: global kpi
+    columns:
+      - name: ads_margin
+        description: operational_margin - ads_cost
+      - name: average_basket
+        description: average basket cost for each day 
+    tests:
+      - not_null:
+          column_name:
+            - ads_margin
+            - average_basket
